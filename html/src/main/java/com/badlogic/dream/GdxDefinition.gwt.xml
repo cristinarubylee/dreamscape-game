@@ -12,7 +12,7 @@
   <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
   <inherits name="Box2DLights" />
   <inherits name="com.badlogic.ashley_gwt" />
-  <inherits name="com.badlogic.dream.Main" />
+  <inherits name="com.badlogic.dream.GDXRoot" />
   <inherits name="com.badlogic.gdx.controllers" />
   <inherits name="com.badlogic.gdx.controllers.controllers-gwt" />
   <inherits name="com.badlogic.gdx.physics.box2d.box2d-gwt" />

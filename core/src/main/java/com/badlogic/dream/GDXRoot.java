@@ -15,7 +15,7 @@
 //import com.badlogic.gdx.utils.viewport.FitViewport;
 //
 ///** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-//public class Main extends Game {
+//public class GDXRoot extends Game {
 //    private Stage stage;
 //    private Skin skin;
 //
@@ -78,7 +78,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.dream.entities.Player;
 
-public class Main extends ApplicationAdapter {
+public class GDXRoot extends ApplicationAdapter {
     private SpriteBatch batch;
     private Player player;
 
