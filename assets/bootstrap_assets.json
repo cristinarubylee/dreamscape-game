@@ -1,0 +1,11 @@
+{
+  "textures": {
+    "play": "play.png",
+    "progress": "progress.png",
+    "splash": "splash.png"
+  },
+  "sounds": {
+  },
+  "music": {
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "textures": {
+    "background": "background.png",
+    "bucket": "bucket.png",
+    "drop": "drop.png",
+    "idle": "idle.png",
+    "shooting": "shooting.png"
+  },
+  "sounds": {
+    "drop": "drop.mp3"
+  },
+  "music": {
+    "music": "music.mp3"
+  }
+}
