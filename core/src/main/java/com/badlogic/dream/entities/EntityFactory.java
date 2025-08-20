@@ -1,5 +1,7 @@
 package com.badlogic.dream.entities;
 
+import com.badlogic.dream.components.ColliderComponent;
+import com.badlogic.dream.components.ControlComponent;
 import com.badlogic.dream.components.PositionComponent;
 import com.badlogic.dream.components.RenderableComponent;
 import com.badlogic.dream.util.Media;
@@ -13,6 +15,50 @@ public class EntityFactory {
         TextureRegion idle = new TextureRegion(Media.get("idle", Texture.class));
         player.add(new PositionComponent(x, y));
         player.add(new RenderableComponent(idle));
+        player.add(new ControlComponent());
+
+        ColliderComponent collider = new ColliderComponent();
+
+        // Capsule dimensions
+        float radius = 0.5f;         // semicircle radius
+        float height = 2f;           // full capsule height
+        float rectHeight = height - 2 * radius; // middle rectangle height
+
+        // Add middle rectangle
+        collider.addShape(new ColliderComponent.RectShape(
+            radius * 2,   // width = diameter
+            rectHeight,   // height
+            -radius, -rectHeight/2          // offset at capsule center
+        ));
+
+        // Add top semicircle
+        collider.addShape(new ColliderComponent.CircleShape(
+            radius,
+            0,
+            rectHeight / 2
+        ));
+
+        // Add bottom semicircle
+        collider.addShape(new ColliderComponent.CircleShape(
+            radius,
+            0,
+            -rectHeight / 2
+        ));
+
+        player.add(collider);
+        return player;
+    }
+
+
+    public static Entity createEnemy(float x, float y) {
+        Entity player = new Entity();
+        TextureRegion idle = new TextureRegion(Media.get("idle", Texture.class));
+        player.add(new PositionComponent(x, y));
+        player.add(new RenderableComponent(idle));
+
+        ColliderComponent collider = new ColliderComponent();
+        collider.addShape(new ColliderComponent.CircleShape(2, 0, 0));
+        player.add(collider);
         return player;
     }
 }

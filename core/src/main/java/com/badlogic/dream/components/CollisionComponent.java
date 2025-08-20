@@ -1,6 +1,7 @@
 package com.badlogic.dream.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 
 public class CollisionComponent implements Component {
     public enum Type {
@@ -9,7 +10,7 @@ public class CollisionComponent implements Component {
 
     public Type type;
 
-    public CollisionComponent(Type type) {
-        this.type = type;
+    public CollisionComponent(Entity other) {
+
     }
 }

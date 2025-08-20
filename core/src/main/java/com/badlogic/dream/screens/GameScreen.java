@@ -4,12 +4,18 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.dream.GDXRoot;
 import com.badlogic.dream.entities.EntityFactory;
+import com.badlogic.dream.systems.CollisionSystem;
+import com.badlogic.dream.systems.ControlSystem;
 import com.badlogic.dream.systems.RenderSystem;
 import com.badlogic.dream.util.Media;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen implements Screen {
     private final GDXRoot game;
@@ -18,9 +24,22 @@ public class GameScreen implements Screen {
     private Entity player;
     private Engine engine;
 
+    private OrthographicCamera camera;
+    private Viewport viewport;
+    private SpriteBatch batch;
+
+    // Define your virtual world size (aspect ratio is kept by FitViewport)
+    private static final float WORLD_WIDTH = 16f;
+    private static final float WORLD_HEIGHT = 10f;
+
     public GameScreen(GDXRoot game) {
         this.game = game;
         this.engine = new Engine();
+
+        // camera + viewport
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        batch = game.batch;
 
         backgroundTexture = Media.get("background", Texture.class);
 
@@ -28,8 +47,12 @@ public class GameScreen implements Screen {
         player = EntityFactory.createPlayer(2, 5);
         engine.addEntity(player);
 
-        // add render system
-        engine.addSystem(new RenderSystem(game.batch));
+        engine.addEntity(EntityFactory.createEnemy(10, 5));
+
+        // add systems
+        engine.addSystem(new RenderSystem(game.batch, 120, false));
+        engine.addSystem(new ControlSystem());
+        engine.addSystem(new CollisionSystem(WORLD_WIDTH, WORLD_HEIGHT, 1));
     }
 
     @Override
@@ -37,27 +60,28 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        float speed = 5 * delta;
-//        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))  player.position.adjustX(-speed);
-//        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.position.adjustX(speed);
-//        if (Gdx.input.isKeyPressed(Input.Keys.UP))    player.position.adjustY(speed);
-//        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))  player.position.adjustY(-speed);
+        viewport.apply();
+        camera.update();
+
+        batch.setProjectionMatrix(camera.combined);
 
         // clear screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // draw background
-        game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, 16, 10);
-        game.batch.end();
+        batch.begin();
+        batch.draw(backgroundTexture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.end();
 
         // let Ashley render entities
         engine.update(delta);
     }
 
     @Override
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
+    }
 
     @Override
     public void pause() { }
