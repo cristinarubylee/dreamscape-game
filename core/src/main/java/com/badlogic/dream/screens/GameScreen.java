@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.dream.GDXRoot;
 import com.badlogic.dream.entities.EntityFactory;
-import com.badlogic.dream.systems.CollisionSystem;
-import com.badlogic.dream.systems.ControlSystem;
-import com.badlogic.dream.systems.RenderSystem;
+import com.badlogic.dream.systems.*;
 import com.badlogic.dream.util.Media;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -53,6 +51,8 @@ public class GameScreen implements Screen {
         engine.addSystem(new RenderSystem(game.batch, 120, false));
         engine.addSystem(new ControlSystem());
         engine.addSystem(new CollisionSystem(WORLD_WIDTH, WORLD_HEIGHT, 1));
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(new ShootingSystem());
     }
 
     @Override

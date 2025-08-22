@@ -23,12 +23,4 @@ public class PositionComponent implements Component {
     public void setY(float y) {
         this.y = y;
     }
-
-    public void adjustX(float val) {
-        this.x += val;
-    }
-
-    public void adjustY(float val) {
-        this.y += val;
-    }
 }

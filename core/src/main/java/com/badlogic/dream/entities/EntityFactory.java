@@ -1,9 +1,6 @@
 package com.badlogic.dream.entities;
 
-import com.badlogic.dream.components.ColliderComponent;
-import com.badlogic.dream.components.ControlComponent;
-import com.badlogic.dream.components.PositionComponent;
-import com.badlogic.dream.components.RenderableComponent;
+import com.badlogic.dream.components.*;
 import com.badlogic.dream.util.Media;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -60,5 +57,14 @@ public class EntityFactory {
         collider.addShape(new ColliderComponent.CircleShape(2, 0, 0));
         player.add(collider);
         return player;
+    }
+
+    public static Entity createBullet(float x, float y) {
+        Entity bullet = new Entity();
+        TextureRegion tex = new TextureRegion(Media.get("drop", Texture.class));
+        bullet.add(new PositionComponent(x, y));
+        bullet.add(new RenderableComponent(tex));
+        bullet.add(new VelocityComponent(1, 0));
+        return bullet;
     }
 }
